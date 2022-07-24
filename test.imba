@@ -1,0 +1,2 @@
+
+import ImbaDocs from './index'
