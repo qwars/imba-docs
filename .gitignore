@@ -111,3 +111,4 @@ public
 # Firebase cache
 .firebase/
 
+.gitignore
