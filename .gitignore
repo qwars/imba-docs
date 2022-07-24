@@ -110,3 +110,6 @@ public
 
 # Firebase cache
 .firebase/
+
+example-test-code.imba
+test.imba
