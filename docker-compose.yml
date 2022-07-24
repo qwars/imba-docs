@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+    
+  imba-doc:
+    build:
+      context: ./
+      cache_from:
+        - node:18-alpine
+    container_name: imba-doc
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app/:rw
+    # command: "sh -c 'yarn && yarn develop'"
