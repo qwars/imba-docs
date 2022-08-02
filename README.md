@@ -4,10 +4,13 @@ Imba document parser
 ## Structure
 
 ```
-    @tags - name as tag|class)|name(tag|class)|.....|name(tag|class)
-    @tag - extend name(tag|class)
+    [comment(###)]
+    @tags - name as (tag|class)|name(tag|class)|.....|name(tag|class)
+    [comment(###)]
 
 ```
+
+Prop 
 
 ```
     [comment(#)] @prop/{ type or name(tag|class) } - { display name }
@@ -34,6 +37,8 @@ Imba document parser
     
 ```
 
+Event or Method
+
 ```
     [comment(#)] @{ event|method } - { display name }
     [comment(#)] @{ event|method }/@TAG - { display name }
@@ -52,7 +57,7 @@ Imba document parser
     [comment(###)]
     @{ event|method }/@tag: 
         - { display name }
-        { prop number }/{ type or name(tag|class) }
+        { prop number or name }/{ type or name(tag|class) }
             - { display name }
             - { display desctiption }
     [comment(###)]
@@ -60,7 +65,7 @@ Imba document parser
     
     [comment(###)]
     @{ event|method }:
-        { prop number }/{ type or name(tag|class) }
+        { prop number or name }/{ type or name(tag|class) }
             - { display name }
             - { display desctiption }
         - { display name }
@@ -97,4 +102,11 @@ def {name} a, b
     self
     
 
+```
+
+
+**TODO:**
+
+```
+    [comment(#)] @tag extend name(tag|class) 
 ```
