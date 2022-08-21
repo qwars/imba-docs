@@ -183,8 +183,23 @@ export class ImbaDocs
 					"{ indents }###"
 				].flat.join '\n'
 			current
+		@source.reduce( replacePropDefComment, Array.new ).reduce( reBuildHerecomment, Array.new ).flat.join '\n'
 
-		console.log @source.reduce( replacePropDefComment, Array.new ).reduce( reBuildHerecomment, Array.new ).flat.join '\n'
+	def createElement paramname, mapset, type
+		if type === 'prop' then properties.set paramname, mapset
+		elif type === 'method' then methods.set paramname, mapset
+		elif type === 'event' then events.set paramname, mapset
+		else functions.set paramname, mapset
+		for item, idx in @source
+			if item isa Array and item.at(-1).match ReNameSet
+				const indents = item.at(-1).match ReSpace
+				@source.splice idx, 0, [
+					"\n{indents}###\n{ indents + '\t' }@{ type }{ !mapset.get('type') ? '' : '/' + mapset.get 'type' }\n{ indents + '\t\t' }- { mapset.get('displayName') }\n{ indents + '\t\t' }- { mapset.get('displayDescription') }\n{indents}###"
+					"{indents}{ type === 'prop' ? 'prop' : 'def' } { paramname }"
+				]
+				@source.splice idx, 0, "{indents + '\t'}self" unless type === 'prop'
+				break
+		self
 
 	def initialize text = ''
 		source = text.split( /\r?\n/ )
