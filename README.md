@@ -10,6 +10,8 @@ Imba document parser
 
 ```
 
+> NOTE: @tags - not support is insert as `createElement` data
+
 Prop 
 
 ```

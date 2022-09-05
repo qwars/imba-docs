@@ -99,7 +99,7 @@ export class ImbaDocs
 		for item, idx in @source = v
 			if item isa String and item.match ReFullDocCommen then item.match( ReFullDocCommenType ).map do|comment|
 				const reMatch = comment.match ReDocCommenType
-				if reMatch[2].match /tags/i then properties.set '@TAGS', reMatch:groups:comment.split('|').map do $1.trim
+				if reMatch[2].match /tags/i then properties.set '@TAGS', reMatch:groups:comment.replace(/#+$/, '').split('|').filter(do !!$1).map do $1.trim
 				elif reMatch[2].match /params/i then createMapData( reMatch:groups:comment ).reduce setMapData, properties
 				elif reMatch[2].match /methods/i then createMapData( reMatch:groups:comment ).reduce setMapData, methods
 				elif reMatch[2].match /events/i then createMapData( reMatch:groups:comment ).reduce setMapData, events
@@ -168,9 +168,9 @@ export class ImbaDocs
 			if item isa Array or not item.match ReFullDocCommenType then current.push item
 			elif not is-used:fullherecomment
 				const indents = item.match ReSpace
-				const content = [
-					properties.get( '@TAGS' ) and "{ indetSet indents }@tags { properties.get( '@TAGS' ).join '|' }"
-				]
+				const tags = [].concat( properties.get( '@TAGS' ) ).filter do !!$1
+				const content = Array.new
+				content.push "{ indetSet indents }@tags { tags.join '|' }" if tags:length > 0
 				const params = Array.from( properties.entries, do if $1[0] !== '@TAGS' and not ( is-used['@prop'] and is-used['@prop'].includes $1[0] ) then paramsString $1, indetSet indetSet indents ).flat.filter do !!$1
 				const events = Array.from( events.entries, do unless is-used['@event'] and is-used['@event'].includes $1[0] then paramsString $1, indetSet indetSet indents  ).flat.filter do !!$1
 				const methods = Array.from( methods.entries, do unless is-used['@method'] and is-used['@method'].includes $1[0] then paramsString $1, indetSet indetSet indents  ).flat.filter do !!$1
